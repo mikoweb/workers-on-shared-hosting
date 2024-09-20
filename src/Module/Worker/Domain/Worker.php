@@ -15,9 +15,8 @@ readonly class Worker
         #[SerializedName('instances_number')]
         public int $instancesNumber,
 
-        #[Assert\NotBlank]
         #[SerializedName('working_directory')]
-        public string $workingDirectory,
+        public ?string $workingDirectory,
 
         /**
          * @var string[]
