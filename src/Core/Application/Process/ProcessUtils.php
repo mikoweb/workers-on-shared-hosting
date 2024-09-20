@@ -21,6 +21,6 @@ class ProcessUtils
      */
     public static function getProcesses(): array
     {
-        return (new ProcessList(true))->rescan()->get();
+        return (new ProcessList(true, true))->rescan()->get();
     }
 }
