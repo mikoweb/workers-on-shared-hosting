@@ -22,7 +22,7 @@ readonly class YamlWorkerRepository implements WorkerRepository
     public function findByName(string $name): ?Worker
     {
         try {
-            return $this->workersReader->read()->where('name', $name)->first();
+            return $this->findAll()->where('name', $name)->first();
         } catch (NoSuchElementException) {
             return null;
         }
