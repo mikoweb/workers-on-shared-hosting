@@ -15,4 +15,12 @@ class ProcessUtils
         $process = new Process($command);
         $process->mustRun();
     }
+
+    /**
+     * @return array<int|string, mixed[]>
+     */
+    public static function getProcesses(): array
+    {
+        return (new ProcessList(true))->rescan()->get();
+    }
 }

@@ -4,12 +4,12 @@ namespace App\Module\Worker\Application\Interaction\Command\StartWorker\Handler;
 
 use App\Core\Application\Exception\NotFoundException;
 use App\Core\Application\Path\AppPathResolver;
+use App\Core\Application\Process\ProcessUtils;
 use App\Module\Worker\Application\Interaction\Command\StartWorker\StartWorkerCommand;
 use App\Module\Worker\Domain\WorkerState;
 use App\Module\Worker\Infrastructure\Persistence\WorkerStatePersistence;
 use App\Module\Worker\Infrastructure\Repository\WorkerRepository;
 use App\Module\Worker\Infrastructure\Repository\WorkerStateRepository;
-use Devium\Processes\Processes;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Process\Process;
 
@@ -60,7 +60,7 @@ readonly class StartWorkerHandler
      */
     private function checkProcesses(string $workerName): array
     {
-        $processes = (new Processes(true))->rescan()->get();
+        $processes = ProcessUtils::getProcesses();
         $pids = $this->workerStateRepository->findByName($workerName)?->pids ?? [];
 
         return array_values(array_filter($pids, fn (int $pid) => isset($processes[$pid])));

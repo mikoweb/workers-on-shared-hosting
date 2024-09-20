@@ -2,6 +2,7 @@
 
 namespace App\Tests\Application\Worker\UI\CLI;
 
+use App\Core\Application\Process\ProcessUtils;
 use App\Module\Worker\Domain\Worker;
 use App\Module\Worker\Domain\WorkerState;
 use App\Module\Worker\Infrastructure\Reader\WorkersReader;
@@ -10,7 +11,6 @@ use App\Module\Worker\Infrastructure\Repository\WorkerRepository;
 use App\Module\Worker\Infrastructure\Repository\WorkerStateRepository;
 use App\Module\Worker\Infrastructure\Repository\YamlWorkerRepository;
 use App\Tests\ApplicationTestCase;
-use Devium\Processes\Processes;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
@@ -94,7 +94,7 @@ class WorkerCliTest extends ApplicationTestCase
             $command->getDisplay()
         );
 
-        $processes = (new Processes(true))->rescan()->get();
+        $processes = ProcessUtils::getProcesses();
         foreach ($state->pids as $pid) {
             $this->assertArrayHasKey($pid, $processes);
         }
@@ -161,7 +161,7 @@ class WorkerCliTest extends ApplicationTestCase
             $command->getDisplay()
         );
 
-        $processes = (new Processes(true))->rescan()->get();
+        $processes = ProcessUtils::getProcesses();
         foreach ($state->pids as $pid) {
             $this->assertArrayHasKey($pid, $processes);
         }
@@ -193,7 +193,7 @@ class WorkerCliTest extends ApplicationTestCase
             $this->assertCount($worker->instancesNumber, $state->pids);
         }
 
-        $processes = (new Processes(true))->rescan()->get();
+        $processes = ProcessUtils::getProcesses();
         $pids = [];
 
         /** @var WorkerState $workerState */
@@ -231,7 +231,7 @@ class WorkerCliTest extends ApplicationTestCase
             $this->assertCount($worker->instancesNumber, $state->pids);
         }
 
-        $processes = (new Processes(true))->rescan()->get();
+        $processes = ProcessUtils::getProcesses();
         $pids = [];
 
         /** @var WorkerState $workerState */
