@@ -18,8 +18,8 @@ class WorkersReaderTest extends ApplicationTestCase
         $this->assertInstanceOf(Worker::class, $worker);
         $this->assertEquals('Test 1', $worker->name);
         $this->assertEquals(5, $worker->instancesNumber);
-        $this->assertEquals('/home/user1', $worker->workingDirectory);
-        $this->assertEquals(['php', 'bin/console', 'messenger:consume', 'async'], $worker->command);
+        $this->assertEquals('__APP_PATH__', $worker->workingDirectory);
+        $this->assertEquals(['php', 'tests/test_worker.php'], $worker->command);
     }
 
     public function testWorker2(): void
@@ -32,8 +32,8 @@ class WorkersReaderTest extends ApplicationTestCase
         $this->assertInstanceOf(Worker::class, $worker);
         $this->assertEquals('Test 2', $worker->name);
         $this->assertEquals(10, $worker->instancesNumber);
-        $this->assertEquals('/home/user2', $worker->workingDirectory);
-        $this->assertEquals(['php', 'bin/console', 'messenger:consume', 'test'], $worker->command);
+        $this->assertEquals('__APP_PATH__', $worker->workingDirectory);
+        $this->assertEquals(['php', 'tests/test_worker.php'], $worker->command);
     }
 
     private function getReader(): WorkersReader

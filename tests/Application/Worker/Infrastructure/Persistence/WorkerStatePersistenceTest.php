@@ -60,12 +60,12 @@ class WorkerStatePersistenceTest extends ApplicationTestCase
         $persiste->putWorkerState(new WorkerState('', []));
     }
 
-    public function getRepository(): WorkerStateRepository
+    private function getRepository(): WorkerStateRepository
     {
         return $this->getContainer()->get(JsonWorkerStateRepository::class);
     }
 
-    public function getPersistence(): WorkerStatePersistence
+    private function getPersistence(): WorkerStatePersistence
     {
         return $this->getService(WorkerStatePersistence::class);
     }

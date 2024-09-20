@@ -1,10 +1,10 @@
 -
     name: Test 1
     instances_number: 5
-    working_directory: '/home/user1'
-    command: ['php', 'bin/console', 'messenger:consume', 'async']
+    working_directory: '__APP_PATH__'
+    command: ['php', 'tests/test_worker.php']
 -
     name: Test 2
     instances_number: 10
-    working_directory: '/home/user2'
-    command: ['php', 'bin/console', 'messenger:consume', 'test']
+    working_directory: '__APP_PATH__'
+    command: ['php', 'tests/test_worker.php']
