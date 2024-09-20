@@ -2,11 +2,11 @@
 
 namespace App\Module\Worker\Application\Interaction\Command\StopWorker\Handler;
 
+use App\Core\Application\Process\ProcessUtils;
 use App\Module\Worker\Application\Interaction\Command\StopWorker\StopWorkerCommand;
 use App\Module\Worker\Infrastructure\Persistence\WorkerStatePersistence;
 use App\Module\Worker\Infrastructure\Repository\WorkerStateRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\Process\Process;
 
 readonly class StopWorkerHandler
 {
@@ -22,19 +22,9 @@ readonly class StopWorkerHandler
         $pids = $this->workerStateRepository->findByName($command->workerName)?->pids ?? [];
 
         foreach ($pids as $pid) {
-            $this->killProcess($pid);
+            ProcessUtils::killProcess($pid);
         }
 
         $this->workerStatePersistence->removeWorkerStateByName($command->workerName);
-    }
-
-    private function killProcess(int $pid): void
-    {
-        $command = strtolower(PHP_OS_FAMILY) === 'windows'
-            ? ['taskkill', '/pid', $pid, '/f']
-            : ['kill', '-9', $pid];
-
-        $process = new Process($command);
-        $process->mustRun();
     }
 }
